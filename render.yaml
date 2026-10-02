@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: scamshield-ai
+    runtime: python
+    plan: free
+    healthCheckPath: /api/health
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: FEATHERLESS_API_KEY   # optional: enables AI-written explanations (message text is sent to the provider)
+        sync: false
+      - key: BLOCKLIST_FEED        # 1 = refresh the free OpenPhish blocklist daily
+        value: "0"
